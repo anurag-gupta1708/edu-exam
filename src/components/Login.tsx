@@ -2,17 +2,16 @@
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 const Login = ({ onLogin }) => {
   const [formData, setFormData] = useState({
-    class: '',
-    subject: ''
+    email: '',
+    password: ''
   });
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (formData.class && formData.subject) {
+    if (formData.email && formData.password) {
       onLogin(formData);
     }
   };
@@ -27,26 +26,26 @@ const Login = ({ onLogin }) => {
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
-              Class
+              Email
             </label>
             <Input
-              type="text"
-              placeholder="Enter your class (e.g., 10,12)"
-              value={formData.class}
-              onChange={(e) => setFormData({...formData, class: e.target.value})}
+              type="email"
+              placeholder="Enter your email"
+              value={formData.email}
+              onChange={(e) => setFormData({...formData, email: e.target.value})}
               className="bg-white"
             />
           </div>
           
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
-              Subject
+              Password
             </label>
             <Input
-              type="text"
-              placeholder="maths,science,english,hindi"
-              value={formData.subject}
-              onChange={(e) => setFormData({...formData, subject: e.target.value})}
+              type="password"
+              placeholder="Enter your password"
+              value={formData.password}
+              onChange={(e) => setFormData({...formData, password: e.target.value})}
               className="bg-white"
             />
           </div>
@@ -54,7 +53,7 @@ const Login = ({ onLogin }) => {
           <Button 
             type="submit" 
             className="w-full bg-gray-600 hover:bg-gray-700 text-white"
-            disabled={!formData.class || !formData.subject}
+            disabled={!formData.email || !formData.password}
           >
             login
           </Button>

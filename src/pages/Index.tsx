@@ -7,8 +7,8 @@ import Results from '../components/Results';
 const Index = () => {
   const [currentPage, setCurrentPage] = useState('login');
   const [studentData, setStudentData] = useState({
-    class: '',
-    subject: ''
+    email: '',
+    password: ''
   });
   const [examResults, setExamResults] = useState(null);
 
