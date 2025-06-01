@@ -99,14 +99,28 @@ const ExamInterface = ({ studentData, onComplete, onLogout }) => {
 
     let correct = 0;
     let totalAttempted = 0;
+    const questionResults = [];
 
-    Object.keys(finalAnswers).forEach(questionIndex => {
-      if (finalAnswers[questionIndex] !== null) {
+    sampleQuestions.forEach((question, index) => {
+      const userAnswer = finalAnswers[index];
+      const isCorrect = userAnswer === question.correct;
+      const wasAttempted = userAnswer !== null && userAnswer !== undefined;
+
+      if (wasAttempted) {
         totalAttempted++;
-        if (finalAnswers[questionIndex] === sampleQuestions[questionIndex].correct) {
+        if (isCorrect) {
           correct++;
         }
       }
+
+      questionResults.push({
+        questionNumber: index + 1,
+        question: question.question,
+        userAnswer: wasAttempted ? question.options[userAnswer] : 'Not attempted',
+        correctAnswer: question.options[question.correct],
+        isCorrect: isCorrect,
+        wasAttempted: wasAttempted
+      });
     });
 
     const results = {
@@ -114,7 +128,8 @@ const ExamInterface = ({ studentData, onComplete, onLogout }) => {
       totalAttempted,
       correct,
       wrong: totalAttempted - correct,
-      percentage: totalAttempted > 0 ? Math.round((correct / totalAttempted) * 100) : 0
+      percentage: totalAttempted > 0 ? Math.round((correct / totalAttempted) * 100) : 0,
+      questionResults: questionResults
     };
 
     onComplete(results);
