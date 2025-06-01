@@ -1,12 +1,57 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+
+import React, { useState } from 'react';
+import Login from '../components/Login';
+import ExamInterface from '../components/ExamInterface';
+import Results from '../components/Results';
 
 const Index = () => {
+  const [currentPage, setCurrentPage] = useState('login');
+  const [studentData, setStudentData] = useState({
+    class: '',
+    subject: ''
+  });
+  const [examResults, setExamResults] = useState(null);
+
+  const handleLogin = (data) => {
+    setStudentData(data);
+    setCurrentPage('exam');
+  };
+
+  const handleExamComplete = (results) => {
+    setExamResults(results);
+    setCurrentPage('results');
+  };
+
+  const handleRetake = () => {
+    setCurrentPage('exam');
+    setExamResults(null);
+  };
+
+  const handleLogout = () => {
+    setCurrentPage('login');
+    setStudentData({ class: '', subject: '' });
+    setExamResults(null);
+  };
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Welcome to Your Blank App</h1>
-        <p className="text-xl text-gray-600">Start building your amazing project here!</p>
-      </div>
+    <div className="min-h-screen bg-gray-200">
+      {currentPage === 'login' && (
+        <Login onLogin={handleLogin} />
+      )}
+      {currentPage === 'exam' && (
+        <ExamInterface 
+          studentData={studentData} 
+          onComplete={handleExamComplete}
+          onLogout={handleLogout}
+        />
+      )}
+      {currentPage === 'results' && (
+        <Results 
+          results={examResults} 
+          onRetake={handleRetake}
+          onLogout={handleLogout}
+        />
+      )}
     </div>
   );
 };
