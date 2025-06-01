@@ -1,9 +1,17 @@
 
 import React from 'react';
 import { Button } from '@/components/ui/button';
-import { Progress } from '@/components/ui/progress';
 
 const Results = ({ results, onRetake, onViewProfile, onLogout }) => {
+  const getFeedback = (percentage) => {
+    if (percentage >= 90) return { text: 'Excellent', color: 'text-green-600 bg-green-50 border-green-200' };
+    if (percentage >= 75) return { text: 'Very Good', color: 'text-blue-600 bg-blue-50 border-blue-200' };
+    if (percentage >= 60) return { text: 'Good', color: 'text-yellow-600 bg-yellow-50 border-yellow-200' };
+    return { text: 'Average', color: 'text-orange-600 bg-orange-50 border-orange-200' };
+  };
+
+  const feedback = getFeedback(results.percentage);
+
   return (
     <div className="min-h-screen bg-gray-200 p-4">
       {/* Header */}
@@ -59,14 +67,16 @@ const Results = ({ results, onRetake, onViewProfile, onLogout }) => {
         </div>
       </div>
 
-      {/* Progress Bar */}
+      {/* Feedback Section */}
       <div className="bg-white p-6 rounded-lg mb-6">
-        <div className="text-center mb-4">
+        <div className="text-center">
           <div className="w-16 h-16 bg-gray-300 rounded-full mx-auto mb-4 flex items-center justify-center">
             <span className="text-lg font-bold">{results.percentage}%</span>
           </div>
+          <div className={`inline-block px-6 py-3 rounded-lg border-2 ${feedback.color}`}>
+            <span className="text-xl font-bold">{feedback.text}</span>
+          </div>
         </div>
-        <Progress value={results.percentage} className="h-3" />
       </div>
 
       {/* Question Analysis */}
